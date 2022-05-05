@@ -1,4 +1,4 @@
-#Trybe
+# Trybe
 
 Este repositório contém todas as atividades de aprendizagem desenvolvidas por _[Jayromberg](https://github.com/Jayromberg)_ enquanto estudava na [Trybe](https://www.betrybe.com/) :rocket:
 
@@ -10,7 +10,7 @@ O programa conta com mais de 1.500 horas de aulas presenciais e online, aborda i
 
 ##### Bloco 11: Introdução - React
 
-- [ ] 11-1: _'Hello, world!' no React!_
+- [x] 11-1: _'Hello, world!' no React!_
 - [ ] 11-2: _Componentes React_
 - [ ] 11-3: _[Projeto - Movie Cards Library]()_
 
