@@ -32,14 +32,26 @@ class App extends React.Component {
     this.fetchDog();
   }
 
+  shouldComponentUpdate(_nextProps, nextState) {
+    const DOG = 'terrier';
+    if (nextState.includes(DOG)) {
+      return false;
+    }
+    return true;
+  }
 
+  componentDidUpdate() {
+    const { message } = this.state
+    localStorage.setItem('dog', message)
+    alert(message.split('/')[4]);
+  }
 
   render() {
     const { message, status } = this.state
     return (
 
       !status ? <p>Loading...</p> : <div> <img src={message} alt="Dog aleatório" />
-        <button type="button" >Próximo cachorro</button> </div>
+        <button type="button" onClick={this.fetchDog} >Próximo cachorro</button> </div>
     )
   }
 }
