@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
 class App extends React.Component {
 
   state = {
     message: '',
-    status: undefined,
+    nome: '',
+    // array: [],
   }
-
 
   // fetchDog = async () => {
   // const dadosRecebidos = await fetch('https://dog.ceo/api/breeds/image/random');
@@ -19,41 +19,67 @@ class App extends React.Component {
   // )
   // }
 
+  componentDidMount() {
+    if (localStorage.obj) {
+      const cachorroResgatado = JSON.parse(localStorage.obj);
+      console.log(cachorroResgatado.message);
+      this.setState({ message: cachorroResgatado.message });
+    } else {
+      this.fetchDog();
+    }
+  }
+
+  shouldComponentUpdate(_a, b) {
+    if (b.message.includes('terrier')) {
+      return false;
+    }
+    return true;
+  }
+
+  componentDidUpdate(_prevProps, prevState) {
+    const { message } = this.state;
+    if (prevState.message !== message) {
+      localStorage.setItem('urlDog', message);
+      alert(message.split('/')[4]);
+    }
+  }
+
   fetchDog = () => {
     fetch('https://dog.ceo/api/breeds/image/random')
       .then((dados) => dados.json())
       .then((obj) => this.setState({
         message: obj.message,
         status: obj.status,
-      }))
+      }));
   }
 
-  componentDidMount() {
-    this.fetchDog();
+  nomearDog = (event) => {
+    const { target } = event;
+    this.setState({ nome: target.value });
   }
 
-  shouldComponentUpdate(_nextProps, nextState) {
-    const DOG = 'terrier';
-    if (nextState.includes(DOG)) {
-      return false;
-    }
-    return true;
+  setName = () => {
+    const { nome, message } = this.state;
+    const arrayDados = ({ message: message, nome: nome });
+    localStorage.clear();
+    localStorage.setItem('obj', JSON.stringify(arrayDados));
   }
-
-  componentDidUpdate() {
-    const { message } = this.state
-    localStorage.setItem('dog', message)
-    alert(message.split('/')[4]);
-  }
-
+  
   render() {
-    const { message, status } = this.state
+    const { message } = this.state;
     return (
-
-      !status ? <p>Loading...</p> : <div> <img src={message} alt="Dog aleatório" />
-        <button type="button" onClick={this.fetchDog} >Próximo cachorro</button> </div>
-    )
+      <>
+        {message === ''
+          ? <p>Loading...</p>
+          : <div>
+            <img src={ message } alt="Dog aleatório" width="300px" />
+            <button type="button" onClick={ this.fetchDog }>Próximo cachorro</button>
+          </div>}
+        <button type="submit" onClick={ this.setName }> Salvar </button>
+        <input type="text" onChange={ this.nomearDog } placeholder="Nomear cachorro" />
+      </>
+    );
   }
 }
 
-export default App; 
+export default App;
